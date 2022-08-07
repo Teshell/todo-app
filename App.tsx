@@ -1,11 +1,24 @@
-import { NativeBaseProvider } from "native-base";
+import { NativeBaseProvider, extendTheme } from "native-base";
 
-import HomeScreen from "./src/screens/HomeScreen";
+import MainScreen from "./src/screens/MainScreen";
+
+import Navigator from "./src/";
+
+import "react-native-gesture-handler";
+
+// Define the config
+const config = {
+  useSystemColorMode: false,
+  initialColorMode: "light",
+};
+
+// extend the theme
+const customTheme = extendTheme({ config });
 
 export default function App() {
   return (
-    <NativeBaseProvider>
-      <HomeScreen />
+    <NativeBaseProvider theme={customTheme}>
+      <Navigator />
     </NativeBaseProvider>
   );
 }
