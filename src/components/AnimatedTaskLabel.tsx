@@ -20,6 +20,7 @@ interface Props {
 
 const AnimatedHStack = Animated.createAnimatedComponent(HStack);
 const AnimatedText = Animated.createAnimatedComponent(Text);
+const AnimatedBox = Animated.createAnimatedComponent(Box);
 
 const AnimatedTaskLabel = memo((props: Props) => {
   const { children, activeTextColor, inactiveTextColor, strikeThrough } = props;
@@ -44,18 +45,37 @@ const AnimatedTaskLabel = memo((props: Props) => {
     [strikeThrough, activeTextColor, inactiveTextColor]
   );
 
+  const strikeThroughWidth = useSharedValue(0);
+  const strikeThroughAnimatedStyle = useAnimatedStyle(
+    () => ({
+      width: `${strikeThroughWidth.value * 100}%`,
+      borderBottomColor: interpolateColor(
+        textColorProgress.value,
+        [0, 1],
+        [activeTextColor, inactiveTextColor]
+      ),
+    }),
+    [strikeThrough, activeTextColor, inactiveTextColor]
+  );
+
   useEffect(() => {
+    const easing = Easing.out(Easing.quad);
+
     if (strikeThrough) {
       textColorProgress.value = withDelay(
         1000,
-        withTiming(1, { duration: 400 })
+        withTiming(1, { duration: 400, easing })
       );
 
+      strikeThroughWidth.value = withTiming(1, { duration: 400, easing });
+
       hstackOffset.value = withSequence(
-        withTiming(4, { duration: 200 }),
-        withTiming(0, { duration: 200 })
+        withTiming(4, { duration: 200, easing }),
+        withTiming(0, { duration: 200, easing })
       );
     } else {
+      strikeThroughWidth.value = withTiming(0, { duration: 400, easing });
+
       textColorProgress.value = withTiming(0, { duration: 400 });
     }
   }, [strikeThrough]);
@@ -72,7 +92,13 @@ const AnimatedTaskLabel = memo((props: Props) => {
         >
           {children}
         </AnimatedText>
-        <Box position="absolute" h={1} borderBottomWidth={1} />
+
+        <AnimatedBox
+          position="absolute"
+          h={1}
+          borderBottomWidth={1}
+          style={[strikeThroughAnimatedStyle]}
+        />
       </AnimatedHStack>
     </Pressable>
   );
