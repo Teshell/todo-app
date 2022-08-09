@@ -1,16 +1,18 @@
 import React from "react";
-import { useColorMode, useColorModeValue, Center } from "native-base";
+import { useColorModeValue, Center } from "native-base";
 
-import ToggleDarkMode from "../components/ToggleDarkMode";
+import ThemeToggle from "../components/ThemeToggle";
+import TaskItem from "../components/TaskItem";
+import { useState } from "react";
 
-const HomeScreen = () => {
-  const { toggleColorMode } = useColorMode();
-
+const MainScreen = () => {
   return (
-    <Center flex="1" bg={useColorModeValue("warmGray.50", "coolGray.800")}>
-      <ToggleDarkMode />
+    <Center flex="1" bg={useColorModeValue("blueGray.50", "blueGray.900")}>
+      <TaskItem />
+
+      <ThemeToggle />
     </Center>
   );
 };
 
-export default HomeScreen;
+export default MainScreen;
