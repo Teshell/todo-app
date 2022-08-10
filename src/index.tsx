@@ -10,7 +10,14 @@ const Drawer = createDrawerNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Drawer.Navigator useLegacyImplementation={true} initialRouteName="Tasks">
+      <Drawer.Navigator
+        useLegacyImplementation={true}
+        initialRouteName="Tasks"
+        screenOptions={{
+          drawerType: "back",
+          swipeEdgeWidth: 200,
+        }}
+      >
         <Drawer.Screen name="Tasks" component={MainScreen} />
         <Drawer.Screen name="About" component={AboutScreen} />
       </Drawer.Navigator>

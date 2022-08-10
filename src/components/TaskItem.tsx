@@ -1,17 +1,37 @@
 import {
-  Text,
   HStack,
   themeTools,
   useTheme,
   useColorModeValue,
-  Box,
+  Input,
+  Pressable,
 } from "native-base";
-import { useState } from "react";
+import { useCallback, useRef, useState } from "react";
+import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native";
 import Checkbox from "../utils/Checkbox";
 import AnimatedTaskLabel from "./AnimatedTaskLabel";
+import SwipeableView from "./SwipeableView";
 
-const TaskItem = () => {
-  const [isDone, setIsDone] = useState(false);
+interface Props {
+  subject: string;
+  checked: boolean;
+  isEditing: boolean;
+  onPressLabel?: () => void;
+  onFinishedEditing?: () => void;
+  onSubjectChange?: (String) => void;
+  onToggleCheckBox?: () => void;
+}
+
+const TaskItem = (props: Props) => {
+  const {
+    subject,
+    checked,
+    isEditing,
+    onPressLabel,
+    onSubjectChange,
+    onFinishedEditing,
+    onToggleCheckBox,
+  } = props;
 
   const theme = useTheme();
 
@@ -25,24 +45,51 @@ const TaskItem = () => {
     useColorModeValue("muted.400", "muted.600")
   );
 
+  const handleSubjectChange = useCallback(
+    (e: NativeSyntheticEvent<TextInputChangeEventData>) => {
+      onSubjectChange && onSubjectChange(e.nativeEvent.text);
+    },
+    [onSubjectChange]
+  );
+
+  const scrollRef = useRef(null);
+
   return (
-    <HStack
-      alignItems="center"
-      w="full"
-      px={4}
-      py={2}
-      space={2}
-      bg={useColorModeValue("warmGray.50", "primary.900")}
-    >
-      <Checkbox isDone={isDone} setIsDone={setIsDone} />
-      <AnimatedTaskLabel
-        strikeThrough={isDone}
-        activeTextColor={activeTextColor}
-        inactiveTextColor={doneTextColor}
+    <SwipeableView simultaneousHandlers={scrollRef}>
+      <HStack
+        alignItems="center"
+        w="full"
+        px={4}
+        py={2}
+        space={2}
+        bg={useColorModeValue("warmGray.50", "primary.900")}
       >
-        Task item
-      </AnimatedTaskLabel>
-    </HStack>
+        <Checkbox isDone={checked} onToggleCheckBox={onToggleCheckBox} />
+
+        {isEditing ? (
+          <Input
+            variant={"unstyled"}
+            placeholder="Task"
+            fontSize={19}
+            px={1}
+            autoFocus
+            blurOnSubmit
+            value={subject}
+            onBlur={onFinishedEditing}
+            onChange={handleSubjectChange}
+          />
+        ) : (
+          <AnimatedTaskLabel
+            strikeThrough={checked}
+            activeTextColor={activeTextColor}
+            inactiveTextColor={doneTextColor}
+            onPress={onPressLabel}
+          >
+            {subject}
+          </AnimatedTaskLabel>
+        )}
+      </HStack>
+    </SwipeableView>
   );
 };
 

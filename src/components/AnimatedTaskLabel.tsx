@@ -1,6 +1,6 @@
 import React, { useEffect, memo } from "react";
 
-import { Box, HStack, Pressable, Text } from "native-base";
+import { Box, HStack, Text, Pressable } from "native-base";
 import Animated, {
   interpolateColor,
   useAnimatedStyle,
@@ -16,6 +16,7 @@ interface Props {
   strikeThrough: boolean;
   activeTextColor: string;
   inactiveTextColor: string;
+  onPress?: () => void;
 }
 
 const AnimatedHStack = Animated.createAnimatedComponent(HStack);
@@ -23,7 +24,13 @@ const AnimatedText = Animated.createAnimatedComponent(Text);
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 
 const AnimatedTaskLabel = memo((props: Props) => {
-  const { children, activeTextColor, inactiveTextColor, strikeThrough } = props;
+  const {
+    children,
+    activeTextColor,
+    inactiveTextColor,
+    strikeThrough,
+    onPress,
+  } = props;
 
   const hstackOffset = useSharedValue(0);
   const hstackAnimatedStyle = useAnimatedStyle(
@@ -81,7 +88,7 @@ const AnimatedTaskLabel = memo((props: Props) => {
   }, [strikeThrough]);
 
   return (
-    <Pressable>
+    <Pressable onPress={onPress}>
       <AnimatedHStack alignItems="center" style={[hstackAnimatedStyle]}>
         <AnimatedText
           fontSize={19}
