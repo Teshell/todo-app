@@ -104,8 +104,6 @@ const MainScreen = () => {
         />
       </VStack>
 
-      <ThemeToggle />
-
       <Fab
         position="absolute"
         renderInPortal={false}
@@ -116,12 +114,12 @@ const MainScreen = () => {
         onPress={() => {
           const id = shortid.generate();
           setData([
+            ...data,
             {
               id,
               subject: "",
               done: false,
             },
-            ...data,
           ]);
 
           setEditingItemId(id);

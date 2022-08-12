@@ -22,7 +22,7 @@ const AnimatedColorBox = ({ bg, ...props }: any) => {
   }, [hexBg]);
 
   const AnimatedStyle = useAnimatedStyle(() => {
-    progress.value = withTiming(1, { duration: 400 });
+    progress.value = withTiming(1, { duration: 200 });
 
     return {
       backgroundColor: interpolateColor(
