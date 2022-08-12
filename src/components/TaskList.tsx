@@ -1,6 +1,9 @@
 import { MotiView, AnimatePresence } from "moti";
-import { ScrollView, Text } from "native-base";
-import React, { useCallback } from "react";
+import React, { useCallback, useRef } from "react";
+import {
+  PanGestureHandlerProps,
+  ScrollView,
+} from "react-native-gesture-handler";
 import TaskItem from "./TaskItem";
 
 interface TaskItemData {
@@ -9,7 +12,8 @@ interface TaskItemData {
   done: boolean;
 }
 
-interface TaskItemProps {
+interface TaskItemProps
+  extends Pick<PanGestureHandlerProps, "simultaneousHandlers"> {
   data: TaskItemData;
   isEditing: boolean;
   onToggleCheckBox: (item: TaskItemData) => void;
@@ -33,6 +37,7 @@ const AnimatedTaskItem = (props: TaskItemProps) => {
   const {
     data,
     isEditing,
+    simultaneousHandlers,
     onToggleCheckBox,
     onPressLabel,
     onFinishedEditing,
@@ -84,6 +89,7 @@ const AnimatedTaskItem = (props: TaskItemProps) => {
     >
       <TaskItem
         key={data.id}
+        simultaneousHandlers={simultaneousHandlers}
         subject={data.subject}
         isDone={data.done}
         isEditing={isEditing}
@@ -108,13 +114,16 @@ const TaskList = (props: TaskListProps) => {
     onRemoveItem,
   } = props;
 
+  const scrollRef = useRef(null);
+
   return (
-    <ScrollView w="full">
+    <ScrollView style={{ width: "100%" }} ref={scrollRef}>
       <AnimatePresence>
         {data.map((item) => (
           <AnimatedTaskItem
             key={item.id}
             data={item}
+            simultaneousHandlers={scrollRef}
             onToggleCheckBox={onToggleCheckBox}
             isEditing={item.id === editingItemId}
             onPressLabel={onPressLabel}

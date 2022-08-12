@@ -5,17 +5,14 @@ import {
   useColorModeValue,
   Input,
 } from "native-base";
-import { useCallback, useRef, useState } from "react";
-import {
-  GestureResponderEvent,
-  NativeSyntheticEvent,
-  TextInputChangeEventData,
-} from "react-native";
+import { useCallback } from "react";
+import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native";
+import { PanGestureHandlerProps } from "react-native-gesture-handler";
 import Checkbox from "../utils/Checkbox";
 import AnimatedTaskLabel from "./AnimatedTaskLabel";
 import SwipeableView from "./SwipeableView";
 
-interface Props {
+interface Props extends Pick<PanGestureHandlerProps, "simultaneousHandlers"> {
   subject: string;
   isDone: boolean;
   isEditing: boolean;
@@ -31,6 +28,7 @@ const TaskItem = (props: Props) => {
     subject,
     isDone,
     isEditing,
+    simultaneousHandlers,
     onPressLabel,
     onSubjectChange,
     onFinishedEditing,
@@ -57,10 +55,11 @@ const TaskItem = (props: Props) => {
     [onSubjectChange]
   );
 
-  const scrollRef = useRef(null);
-
   return (
-    <SwipeableView simultaneousHandlers={scrollRef} onSwipeLeft={onRemove}>
+    <SwipeableView
+      simultaneousHandlers={simultaneousHandlers}
+      onSwipeLeft={onRemove}
+    >
       <HStack
         alignItems="center"
         w="full"
