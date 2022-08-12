@@ -24,6 +24,7 @@ const MenuButton: React.FC = ({ active, icon, children, ...props }: Props) => {
       }}
       _dark={{
         colorScheme: "darkBlue",
+
         _pressed: {
           bg: "primary.600",
         },

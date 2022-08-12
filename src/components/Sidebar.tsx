@@ -31,7 +31,7 @@ const Sidebar = (props: DrawerContentComponentProps) => {
       p={7}
       bg={useColorModeValue("blue.50", "darkBlue.800")}
     >
-      <VStack flex={1} space={2}>
+      <VStack flex={1} space={2} pt={16}>
         <Avatar
           source={require("../../assets/avatar.png")}
           size="xl"
