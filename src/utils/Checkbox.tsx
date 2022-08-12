@@ -3,18 +3,18 @@ import { StyleSheet, View, Pressable } from "react-native";
 import AnimatedCheckbox from "react-native-checkbox-reanimated";
 
 interface Props {
-  isDone: boolean;
+  checked: boolean;
   onToggleCheckBox?: () => void;
 }
 
 export default function Checkbox(props: Props) {
-  const { isDone, onToggleCheckBox } = props;
+  const { checked, onToggleCheckBox } = props;
 
   return (
     <View>
       <Pressable style={styles.checkbox} onPress={onToggleCheckBox}>
         <AnimatedCheckbox
-          checked={isDone}
+          checked={checked}
           highlightColor="#bfbfe1"
           checkmarkColor="#ffffff"
           boxOutlineColor="#bfbfe1"

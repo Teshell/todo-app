@@ -13,32 +13,36 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
+  runOnJS,
 } from "react-native-reanimated";
 import { Dimensions } from "react-native";
 
 interface Props extends Pick<PanGestureHandlerProps, "simultaneousHandlers"> {
   children: React.ReactNode;
+  onSwipeLeft?: () => void;
 }
 
 const { width: SCREEN_WIDTH } = Dimensions.get("window");
-const SWIPE_THRESHOLD = -SCREEN_WIDTH * 0.3;
+const SWIPE_THRESHOLD = -SCREEN_WIDTH * 0.2;
 
 const AnimatedBox = Animated.createAnimatedComponent(Box);
 
 const SwipeableView = (props: Props) => {
-  const { children, simultaneousHandlers } = props;
+  const { children, simultaneousHandlers, onSwipeLeft } = props;
 
   const translateX = useSharedValue(0);
 
   const panGesture = useAnimatedGestureHandler<PanGestureHandlerGestureEvent>({
     onActive: (event) => {
-      translateX.value = event.translationX;
+      translateX.value = Math.max(-128, Math.min(0, event.translationX));
     },
     onEnd: () => {
       const shouldBeDismissed = translateX.value < SWIPE_THRESHOLD;
 
       if (shouldBeDismissed) {
         translateX.value = withTiming(-SCREEN_WIDTH);
+
+        onSwipeLeft && runOnJS(onSwipeLeft)();
       } else {
         translateX.value = withTiming(0);
       }
