@@ -1,10 +1,11 @@
 import React, { SetStateAction, useCallback, useState } from "react";
-import { useColorModeValue, Center, Text } from "native-base";
+import { useColorModeValue, Center, Text, Fab, Icon } from "native-base";
 
 import shortid from "shortid";
 
 import ThemeToggle from "../components/ThemeToggle";
 import TaskList from "../components/TaskList";
+import { AntDesign } from "@expo/vector-icons";
 
 const initialData = [
   {
@@ -91,6 +92,28 @@ const MainScreen = () => {
       /> */}
 
       <ThemeToggle />
+
+      <Fab
+        position="absolute"
+        renderInPortal={false}
+        size="sm"
+        icon={<Icon color="white" as={<AntDesign name="plus" />} size="sm" />}
+        colorScheme={useColorModeValue("blue", "darkBlue")}
+        bg={useColorModeValue("blue.500", "blue.400")}
+        onPress={() => {
+          const id = shortid.generate();
+          setData([
+            {
+              id,
+              subject: "",
+              done: false,
+            },
+            ...data,
+          ]);
+
+          setEditingItemId(id);
+        }}
+      />
     </Center>
   );
 };
