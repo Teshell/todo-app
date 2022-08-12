@@ -8,6 +8,7 @@ import TaskList from "../components/TaskList";
 import { AntDesign } from "@expo/vector-icons";
 import AnimatedColorBox from "../components/AnimatedColorBox";
 import Masthead from "../components/Masthead";
+import Navbar from "../components/Navbar";
 
 const initialData = [
   {
@@ -80,7 +81,9 @@ const MainScreen = () => {
       <Masthead
         title="What's up, Zizou?"
         image={require("../../assets/masthead.jpg")}
-      ></Masthead>
+      >
+        <Navbar />
+      </Masthead>
       <VStack
         flex={1}
         space={1}

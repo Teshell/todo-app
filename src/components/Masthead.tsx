@@ -24,6 +24,8 @@ const Masthead = (props: Props) => {
         resizeMode="cover"
         alt="masthead image"
       />
+
+      {children}
       <Box flex={1} />
       <Heading color="white" p={7} size="xl">
         {title}
