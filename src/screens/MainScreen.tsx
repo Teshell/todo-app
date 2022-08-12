@@ -1,11 +1,19 @@
 import React, { SetStateAction, useCallback, useState } from "react";
-import { useColorModeValue, Center, Text, Fab, Icon } from "native-base";
+import {
+  useColorModeValue,
+  Center,
+  Text,
+  Fab,
+  Icon,
+  VStack,
+} from "native-base";
 
 import shortid from "shortid";
 
 import ThemeToggle from "../components/ThemeToggle";
 import TaskList from "../components/TaskList";
 import { AntDesign } from "@expo/vector-icons";
+import AnimatedColorBox from "../components/AnimatedColorBox";
 
 const initialData = [
   {
@@ -70,26 +78,30 @@ const MainScreen = () => {
   }, []);
 
   return (
-    <Center flex="1" bg={useColorModeValue("blueGray.50", "blueGray.900")}>
-      <TaskList
-        data={data}
-        editingItemId={editingItemId}
-        onToggleCheckBox={handlePressCheckBox}
-        onSubjectChange={handleSubjectChange}
-        onPressLabel={handlePressLabel}
-        onFinishedEditing={handleFinishedEditing}
-        onRemoveItem={handleRemoveItem}
-      />
-
-      {/* <TaskItem
-        checked={checked}
-        isEditing={isEditing}
-        onToggleCheckBox={handlePressCheckBox}
-        onSubjectChange={setSubject}
-        onPressLabel={() => setIsEditing(true)}
-        onFinishedEditing={() => setIsEditing(false)}
-        subject={subject}
-      /> */}
+    <AnimatedColorBox
+      flex={1}
+      w="full"
+      bg={useColorModeValue("warmGray.50", "primary.900")}
+    >
+      <VStack
+        flex={1}
+        space={1}
+        bg={useColorModeValue("warmGray.50", "primary.900")}
+        mt="-20px"
+        borderTopLeftRadius="20px"
+        borderTopRightRadius="20px"
+        pt="20px"
+      >
+        <TaskList
+          data={data}
+          editingItemId={editingItemId}
+          onToggleCheckBox={handlePressCheckBox}
+          onSubjectChange={handleSubjectChange}
+          onPressLabel={handlePressLabel}
+          onFinishedEditing={handleFinishedEditing}
+          onRemoveItem={handleRemoveItem}
+        />
+      </VStack>
 
       <ThemeToggle />
 
@@ -114,7 +126,7 @@ const MainScreen = () => {
           setEditingItemId(id);
         }}
       />
-    </Center>
+    </AnimatedColorBox>
   );
 };
 
