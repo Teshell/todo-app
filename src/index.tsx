@@ -14,8 +14,10 @@ const App = () => {
         useLegacyImplementation={true}
         initialRouteName="Tasks"
         screenOptions={{
+          headerShown: false,
           drawerType: "back",
           swipeEdgeWidth: 200,
+          overlayColor: "#00000000",
         }}
       >
         <Drawer.Screen name="Tasks" component={MainScreen} />

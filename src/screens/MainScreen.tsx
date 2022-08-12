@@ -1,12 +1,5 @@
-import React, { SetStateAction, useCallback, useState } from "react";
-import {
-  useColorModeValue,
-  Center,
-  Text,
-  Fab,
-  Icon,
-  VStack,
-} from "native-base";
+import React, { useCallback, useState } from "react";
+import { useColorModeValue, Fab, Icon, VStack } from "native-base";
 
 import shortid from "shortid";
 
@@ -14,6 +7,7 @@ import ThemeToggle from "../components/ThemeToggle";
 import TaskList from "../components/TaskList";
 import { AntDesign } from "@expo/vector-icons";
 import AnimatedColorBox from "../components/AnimatedColorBox";
+import Masthead from "../components/Masthead";
 
 const initialData = [
   {
@@ -83,6 +77,10 @@ const MainScreen = () => {
       w="full"
       bg={useColorModeValue("warmGray.50", "primary.900")}
     >
+      <Masthead
+        title="What's up, Zizou?"
+        image={require("../../assets/masthead.jpg")}
+      ></Masthead>
       <VStack
         flex={1}
         space={1}
