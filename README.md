@@ -1,1 +1,1 @@
-This is an animated todo app created with React Native.
+Animated Todo App built with React Native and Reanimated 2.
